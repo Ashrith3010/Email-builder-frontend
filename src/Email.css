@@ -1,0 +1,231 @@
+/* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  
+  
+  .bg-white {
+    background-color: #ffffff;
+    padding: 3rem;
+    width: 70%;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* White background for cards */
+    margin: auto; /* Horizontal centering */
+    position: absolute;
+    top: 60%; /* Push down by 50% */
+    left: 50%; /* Push right by 50% */
+    transform: translate(-50%, -50%); /* Offset the pushed position */
+}
+
+  
+  .text-gray-700 {
+    color: #4a4a4a; /* Darker gray for text */
+  }
+  
+  .text-gray-800 {
+    color: #333333; /* Dark gray for headings */
+  }
+  
+  .text-sm {
+    font-size: 0.875rem; /* Smaller text size */
+  }
+  
+  .font-medium {
+    font-weight: 500; /* Medium font weight */
+  }
+  
+  .font-bold {
+    font-weight: 700; /* Bold font weight */
+  }
+  
+  .rounded-lg {
+    border-radius: 12px; /* Rounded corners for cards */
+  }
+  
+  .shadow-lg {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a 3D effect */
+  }
+  
+  .p-6 {
+    padding: 2rem; /* Generous padding for larger layout */
+  }
+  
+  .mb-6 {
+    margin-bottom: 1.5rem; /* Bottom margin */
+  }
+  
+  .space-y-6 {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  button {
+    transition: background-color 0.3s ease; /* Smooth background transition for buttons */
+  }
+  
+  input, textarea {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth border transition */
+  }
+  
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: #4a90e2; /* Blue border on focus */
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5); /* Light blue glow */
+  }
+  
+  button:hover {
+    background-color: #2c3e50; /* Darker blue on hover */
+  }
+  
+  input, textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  textarea {
+    resize: vertical;
+  }
+  
+  label {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 1rem; /* Space between buttons */
+    justify-content: center; /* Center the buttons horizontally */
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background-color: #4a90e2; /* Blue button */
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.button:hover {
+    background-color: #357ab8; /* Darker blue on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+.button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.5); /* Focus ring */
+}
+
+  
+  button:disabled {
+    background-color: #b0c9e6; /* Light blue when disabled */
+  }
+  
+  button + button {
+    margin-left: 1rem;
+  }
+  
+
+  
+  input[type="file"] {
+    display: none;
+  }
+  
+  input[type="file"]:focus + button {
+    background-color: #357ab7;
+  }
+  
+  button span {
+    font-size: 0.875rem;
+    color: #4a90e2;
+  }
+  
+  button span:hover {
+    cursor: pointer;
+    color: #2c3e50; /* Darker blue for better hover effect */
+  }
+  
+  /* Full-screen layout */
+  .full-screen {
+    width: 100vw; /* 100% of the viewport width */
+    height: 100vh; /* 100% of the viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2rem; /* Add padding so content doesn't stick to the edges */
+    gap: 2rem;
+  }
+  
+  /* Main Editor Card */
+  .editor-card {
+    background-color: #ffffff;
+    padding: 3rem;
+    width: 80%; /* Adjust width to occupy more space */
+    max-width: 1200px; /* Limit maximum width for larger screens */
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .editor-card h1 {
+    font-size: 2.5rem;
+    color: #333333;
+  }
+  
+  .editor-card input,
+  .editor-card textarea {
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Preview Section */
+  .preview-section {
+    background-color: #ffffff;
+    padding: 3rem;
+    width: 80%;
+    max-width: 1200px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .preview-section h2 {
+    font-size: 2rem;
+    color: #333333;
+  }
+  
+  .preview-section .preview {
+    border: 1px solid #e5e5e5;
+    padding: 2rem;
+    border-radius: 8px;
+    background-color: #fafafa;
+    min-height: 200px;
+  }
+  
+  /* Action Buttons Section */
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  @media (max-width: 768px) {
+    .action-buttons {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    button + button {
+      margin-left: 0;
+      margin-top: 1rem;
+    }
+  }
+  
