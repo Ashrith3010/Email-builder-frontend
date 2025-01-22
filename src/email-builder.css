@@ -1,0 +1,66 @@
+.container {
+    background-color: #f9f9f9;
+    min-height: 100vh;
+  }
+  
+  .MuiCard-root {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 16px;
+    background-color: #ffffff;
+  }
+  
+  .MuiTypography-h4 {
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  
+  .MuiTextField-root {
+    background-color: #fff;
+  }
+  
+  .MuiButton-root {
+    text-transform: none;
+    font-size: 16px;
+    padding: 8px 16px;
+  }
+  
+  .MuiButton-containedPrimary {
+    background-color: #1976d2;
+    color: #ffffff;
+  }
+  
+  .MuiButton-containedSecondary {
+    background-color: #d32f2f;
+    color: #ffffff;
+  }
+  
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-top: 8px;
+  }
+  
+  .box-preview {
+    margin-top: 16px;
+  }
+  
+  .box-preview .MuiCardContent-root {
+    padding: 16px;
+    background-color: #f4f4f4;
+  }
+  
+  .box-preview .MuiTypography-h5 {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+  }
+  
+  .box-preview div {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 16px;
+    background-color: #fff;
+  }
+  

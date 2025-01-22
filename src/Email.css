@@ -1,231 +1,288 @@
-/* Reset default margin and padding */
+
+/* Global Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  
-  
-  .bg-white {
-    background-color: #ffffff;
-    padding: 3rem;
-    width: 70%;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* White background for cards */
-    margin: auto; /* Horizontal centering */
-    position: absolute;
-    top: 60%; /* Push down by 50% */
-    left: 50%; /* Push right by 50% */
-    transform: translate(-50%, -50%); /* Offset the pushed position */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-  
-  .text-gray-700 {
-    color: #4a4a4a; /* Darker gray for text */
-  }
-  
-  .text-gray-800 {
-    color: #333333; /* Dark gray for headings */
-  }
-  
-  .text-sm {
-    font-size: 0.875rem; /* Smaller text size */
-  }
-  
-  .font-medium {
-    font-weight: 500; /* Medium font weight */
-  }
-  
-  .font-bold {
-    font-weight: 700; /* Bold font weight */
-  }
-  
-  .rounded-lg {
-    border-radius: 12px; /* Rounded corners for cards */
-  }
-  
-  .shadow-lg {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a 3D effect */
-  }
-  
-  .p-6 {
-    padding: 2rem; /* Generous padding for larger layout */
-  }
-  
-  .mb-6 {
-    margin-bottom: 1.5rem; /* Bottom margin */
-  }
-  
-  .space-y-6 {
-    display: flex;
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f7f9fc;
+  color: #1a1a1a;
+  line-height: 1.6;
+}
+
+/* Navigation Styles */
+.nav {
+  width: 100%;
+  background-color: #1e40af;
+  color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.templatenav {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headernav {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.templatelink,
+.newlink {
+  font-size: 1rem;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.templatelink {
+  background-color: transparent;
+}
+
+.templatelink:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.newlink {
+  background-color: #16a34a;
+}
+
+.newlink:hover {
+  background-color: #15803d;
+}
+
+/* Search Container */
+.search-container {
+  max-width: 1280px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  padding-right: 120px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.search-button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.5rem 1rem;
+  background-color: #1e40af;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #1e3a8a;
+}
+
+/* Template Cards */
+.templates-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem 2rem;
+}
+
+.template-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.template-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.template-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.template-date {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.action-button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.edit-button {
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.edit-button:hover {
+  background-color: #dbeafe;
+}
+
+.view-button {
+  color: #059669;
+  background-color: #ecfdf5;
+}
+
+.view-button:hover {
+  background-color: #d1fae5;
+}
+
+.delete-button {
+  color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.delete-button:hover {
+  background-color: #fee2e2;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow: hidden;
+  animation: slideIn 0.3s ease;
+}
+
+.modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-body {
+  padding: 1.5rem;
+  max-height: calc(90vh - 160px);
+  overflow-y: auto;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .templatenav {
     flex-direction: column;
-    gap: 1.5rem;
-  }
-  
-  button {
-    transition: background-color 0.3s ease; /* Smooth background transition for buttons */
-  }
-  
-  input, textarea {
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth border transition */
-  }
-  
-  input:focus, textarea:focus {
-    outline: none;
-    border-color: #4a90e2; /* Blue border on focus */
-    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5); /* Light blue glow */
-  }
-  
-  button:hover {
-    background-color: #2c3e50; /* Darker blue on hover */
-  }
-  
-  input, textarea {
-    width: 100%;
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  
-  textarea {
-    resize: vertical;
-  }
-  
-  label {
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-  }
-  
-  .button-group {
-    display: flex;
-    gap: 1rem; /* Space between buttons */
-    justify-content: center; /* Center the buttons horizontally */
-    align-items: center;
-    margin-top: 1rem;
-}
-
-.button {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    background-color: #4a90e2; /* Blue button */
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.button:hover {
-    background-color: #357ab8; /* Darker blue on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
-}
-
-.button:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.5); /* Focus ring */
-}
-
-  
-  button:disabled {
-    background-color: #b0c9e6; /* Light blue when disabled */
-  }
-  
-  button + button {
-    margin-left: 1rem;
-  }
-  
-
-  
-  input[type="file"] {
-    display: none;
-  }
-  
-  input[type="file"]:focus + button {
-    background-color: #357ab7;
-  }
-  
-  button span {
-    font-size: 0.875rem;
-    color: #4a90e2;
-  }
-  
-  button span:hover {
-    cursor: pointer;
-    color: #2c3e50; /* Darker blue for better hover effect */
-  }
-  
-  /* Full-screen layout */
-  .full-screen {
-    width: 100vw; /* 100% of the viewport width */
-    height: 100vh; /* 100% of the viewport height */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 2rem; /* Add padding so content doesn't stick to the edges */
-    gap: 2rem;
-  }
-  
-  /* Main Editor Card */
-  .editor-card {
-    background-color: #ffffff;
-    padding: 3rem;
-    width: 80%; /* Adjust width to occupy more space */
-    max-width: 1200px; /* Limit maximum width for larger screens */
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .editor-card h1 {
-    font-size: 2.5rem;
-    color: #333333;
-  }
-  
-  .editor-card input,
-  .editor-card textarea {
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Preview Section */
-  .preview-section {
-    background-color: #ffffff;
-    padding: 3rem;
-    width: 80%;
-    max-width: 1200px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .preview-section h2 {
-    font-size: 2rem;
-    color: #333333;
-  }
-  
-  .preview-section .preview {
-    border: 1px solid #e5e5e5;
-    padding: 2rem;
-    border-radius: 8px;
-    background-color: #fafafa;
-    min-height: 200px;
-  }
-  
-  /* Action Buttons Section */
-  .action-buttons {
-    display: flex;
     gap: 1rem;
-    margin-top: 2rem;
+    padding: 1rem 0;
   }
-  
-  @media (max-width: 768px) {
-    .action-buttons {
-      flex-direction: column;
-      align-items: stretch;
-    }
-  
-    button + button {
-      margin-left: 0;
-      margin-top: 1rem;
-    }
+
+  .nav-links {
+    width: 100%;
+    justify-content: center;
   }
-  
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .card-actions {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 1rem;
+  }
+
+  .action-button {
+    flex: 1;
+  }
+}

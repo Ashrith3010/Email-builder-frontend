@@ -1,206 +1,263 @@
 import React, { useState, useEffect } from 'react';
-import './Email.css'
+import { useParams } from 'react-router-dom';
+import { TextField, Button, Card, CardContent, Typography, Box, CircularProgress, Grid } from '@mui/material';
+import './email-builder.css';
 import { Navbar } from './Navbar';
+
 function EmailBuilder() {
+  const { id } = useParams();
   const [template, setTemplate] = useState({
     title: '',
     content: '',
     imageUrl: '',
-    footer: ''
+    footer: '',
+    imageData: null,
+    isImageOnly: false
   });
-  const [htmlLayout, setHtmlLayout] = useState('');
   const [preview, setPreview] = useState('');
+  const [imagePreview, setImagePreview] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    fetchLayout();
-  }, []);
+    if (id) {
+      fetchTemplate();
+    }
+  }, [id]);
 
-  const fetchLayout = async () => {
+  const fetchTemplate = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/templates'); // Get all templates
+      const response = await fetch(`http://localhost:8080/api/templates/${id}`);
+      if (!response.ok) throw new Error('Failed to fetch template');
       const data = await response.json();
-      if (data.length > 0) {
-        setHtmlLayout(data[0].content); // Assuming you want to use the content of the first template
+      setTemplate(data);
+
+      if (data.imageData) {
+        setImagePreview(`http://localhost:8080/api/templates/${id}/image`);
       }
     } catch (error) {
-      console.error('Error fetching layout:', error);
+      console.error('Error fetching template:', error);
+      alert('Failed to load template');
     }
+  };
+
+  const validateTemplate = () => {
+    const newErrors = {};
+    if (!template.title?.trim()) {
+      newErrors.title = 'Title is required';
+    }
+    if (!template.content?.trim()) {
+      newErrors.content = 'Content is required';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setTemplate(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setTemplate((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: null }));
+    }
   };
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+
     const formData = new FormData();
     formData.append('image', file);
 
+    setLoading(true);
     try {
       const response = await fetch('http://localhost:8080/api/upload-image', {
         method: 'POST',
-        body: formData
+        body: formData,
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
+
       const data = await response.json();
-      setTemplate(prev => ({
+      setImagePreview(`http://localhost:8080${data.imageUrl}`);
+      setTemplate((prev) => ({
         ...prev,
-        imageUrl: data.imageUrl
+        imageUrl: data.imageUrl,
+        imageData: data.imageId,
       }));
     } catch (error) {
       console.error('Error uploading image:', error);
+      alert('Failed to upload image: ' + error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSave = async () => {
+    if (!validateTemplate()) {
+      return;
+    }
+
     try {
-      await fetch('http://localhost:8080/api/templates', {  // Save template
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(template)
+      const url = id
+        ? `http://localhost:8080/api/templates/${id}`
+        : 'http://localhost:8080/api/templates';
+      const method = id ? 'PUT' : 'POST';
+
+      const templateToSave = {
+        ...template,
+        imageData: null
+      };
+
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(templateToSave),
       });
+
+      if (!response.ok) {
+        const errorData = await response.text();
+        throw new Error(errorData || 'Failed to save template');
+      }
+
       alert('Template saved successfully!');
     } catch (error) {
       console.error('Error saving template:', error);
+      alert('Failed to save template: ' + error.message);
     }
   };
 
   const handlePreview = async () => {
+    if (!validateTemplate()) {
+      return;
+    }
+
     try {
-      const response = await fetch('http://localhost:8080/api/renderAndDownloadTemplate', {
+      const response = await fetch('http://localhost:8080/api/preview-template', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(template)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...template,
+          imageUrl: imagePreview || template.imageUrl,
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate preview');
+      }
+
       const html = await response.text();
       setPreview(html);
     } catch (error) {
       console.error('Error generating preview:', error);
+      alert('Failed to generate preview. Please try again.');
     }
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <Navbar/>
-      <br/>
-      <br/>
-      
-      {/* Main Editor Card */}
-      <div className="bg-white rounded-lg shadow-lg mb-6 p-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Email Builder</h1>
-        </div>
-        
-        <div className="space-y-6">
-          {/* Title Input */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Title
-            </label>
-            <input
-              type="text"
-              name="title"
-              value={template.title}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Enter email title"
-            />
-          </div>
+    <Box className="container" p={4}>
+      <Navbar />
+      <Box mt={4}>
+        <Card>
+          <CardContent>
+            <Typography variant="h4" component="div" gutterBottom>
+              Email Builder
+            </Typography>
 
-          {/* Content Input */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Content
-            </label>
-            <textarea
-              name="content"
-              value={template.content}
-              onChange={handleInputChange}
-              rows="6"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Enter email content"
-            />
-          </div>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Title"
+                  name="title"
+                  value={template.title}
+                  onChange={handleInputChange}
+                  error={!!errors.title}
+                  helperText={errors.title}
+                />
+              </Grid>
 
-          {/* Image Upload */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Image
-            </label>
-            <div className="flex items-center space-x-2">
-              <input
-                type="file"
-                onChange={handleImageUpload}
-                accept="image/*"
-                className="hidden"
-                id="image-upload"
-              />
-              <button
-                onClick={() => document.getElementById('image-upload').click()}
-                className="uploadclass"
-              >
-                Upload Image
-              </button>
-              {template.imageUrl && (
-                <span className="text-sm text-gray-500">Image uploaded</span>
-              )}
-            </div>
-          </div>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Content"
+                  name="content"
+                  value={template.content}
+                  onChange={handleInputChange}
+                  multiline
+                  rows={6}
+                  error={!!errors.content}
+                  helperText={errors.content}
+                />
+              </Grid>
 
-          {/* Footer Input */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Footer
-            </label>
-            <input
-              type="text"
-              name="footer"
-              value={template.footer}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Enter email footer"
-            />
-          </div>
+              <Grid item xs={12}>
+                <Box display="flex" alignItems="center" gap={2}>
+                  <Button
+                    variant="outlined"
+                    component="label"
+                    disabled={loading}
+                  >
+                    {loading ? <CircularProgress size={24} /> : 'Upload Image'}
+                    <input
+                      type="file"
+                      hidden
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                    />
+                  </Button>
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      style={{ maxWidth: '100px', borderRadius: '8px' }}
+                    />
+                  )}
+                </Box>
+              </Grid>
 
-          {/* Action Buttons */}
-          <div className="button-group">
-  <button
-    onClick={handleSave}
-    className="button"
-  >
-    Save Template
-  </button>
-  <button
-    onClick={handlePreview}
-    className="button"
-  >
-    Preview
-  </button>
-</div>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Footer"
+                  name="footer"
+                  value={template.footer}
+                  onChange={handleInputChange}
+                />
+              </Grid>
 
-        </div>
-      </div>
+              <Grid item xs={12} display="flex" gap={2}>
+                <Button variant="contained" color="primary" onClick={handleSave}>
+                  Save Template
+                </Button>
+                <Button variant="contained" color="secondary" onClick={handlePreview}>
+                  Preview
+                </Button>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+      </Box>
 
-      {/* Preview Section */}
       {preview && (
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <div className="mb-4">
-            <h2 className="text-xl font-bold text-gray-800">Preview</h2>
-          </div>
-          <div
-            dangerouslySetInnerHTML={{ __html: preview }}
-            className="border border-gray-200 p-4 rounded-md"
-          />
-        </div>
+        <Box mt={4}>
+          <Card>
+            <CardContent>
+              <Typography variant="h5" gutterBottom>
+                Preview
+              </Typography>
+              <Box
+                dangerouslySetInnerHTML={{ __html: preview }}
+                p={2}
+                style={{ border: '1px solid #ddd', borderRadius: '4px' }}
+              />
+            </CardContent>
+          </Card>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }
 
